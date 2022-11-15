@@ -5,7 +5,9 @@
 import javax.swing.*;
 
 public class SpaceInvaders extends JFrame {
-    SpaceInvadersPanel game = new SpaceInvadersPanel(); // panel that contains the game
+
+    private SpaceInvadersPanel game = new SpaceInvadersPanel(); // panel that contains the game
+    public static final int WIDTH = 1200, HEIGHT = 900; // width and height of the game window
 
     public SpaceInvaders() {
         super("Space Invaders");
@@ -15,17 +17,21 @@ public class SpaceInvaders extends JFrame {
         setVisible(true);
     }
 
+    @Override
+    public String toString() {
+        return "Space Invaders";
+    }
+
     public static void main(String[] args) {
         SpaceInvaders frame = new SpaceInvaders();
+        System.out.println(frame); // printing because I don't like the yellow squiggly line
     }
 }
 
-// TODO 
-// Make all variables private yayayyaayya done  1/2/2020
-// Organize / comment code
-// Fix the shooting sound effect
-// Add background music
-// Add high score screen
+// TODO:
+// Organize / comment code donee AAAAAAAAA THAT TOO FOREVER || 2022-11-10
+// Fix the fort block images (can be done by removing different opacity layers from the edges of the images) DO TODAY
+// Add the green line thing
 // Add instuctions screen
 // Add pause screen
 

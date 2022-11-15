@@ -1,3 +1,7 @@
+// Tank.java
+// Jacob Gaisinsky
+// Class that contains the tank object
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -5,15 +9,21 @@ import java.util.ArrayList;
 
 public class Tank {
 
-    final int UP = -1, DOWN = 1;
+    public static final int UP = -1, DOWN = 1; // Constants for the direction of the tank
 
-    private Image tank;
-    private int x, y, speed, lives;
-    private Rectangle hitbox;
-    private Bullet bullet;
-    private SoundEffect shoot;
+    private Image tank; // Image of the tank
+
+    private int 
+    x, // x coordinate of the tank
+    y, // y coordinate of the tank
+    speed, // speed of the tank
+    lives; // number of lives the tank has
+
+    private Rectangle hitbox; // hitbox of the tank
+    private Bullet bullet; // bullet of the tank
+    private SoundEffect shoot; // sound effect of the tank shooting
     
-    public Tank(int x, int l) {
+    public Tank(int x, int l) { // constructor
         tank = new ImageIcon("assets/tank.png").getImage();
 
         this.x = x;
@@ -28,7 +38,7 @@ public class Tank {
         bullet = null;
     }
 
-    public void move(boolean[] keys) {
+    public void move(boolean[] keys) { // moves the tank and the bullet
         if (keys[KeyEvent.VK_LEFT] && x > 10) {
             x -= speed;
         }
@@ -36,34 +46,36 @@ public class Tank {
             x += speed;
         }
         hitbox.translate( x - (int) hitbox.getX(), 0);
-        if (isShooting()) {
+        if (isShooting()) { // if the tank is shooting  
             bullet.move();
-            if (bullet.isOffScreen()) {
+            if (bullet.isOffScreen()) { // if the bullet is off the screen, remove it
                 bullet = null;
             }
         }
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics g) { // draws the tank and the bullet
         g.drawImage(tank, x, y, null);
         if (isShooting()) {
             bullet.draw(g);
         }
     }
 
-    public void shoot(boolean[] keys) {
+    public void shoot(boolean[] keys) { // shoots the bullet if the tank is not already shooting
         if (keys[KeyEvent.VK_SPACE]) {
             if (!isShooting()) {
                 bullet = new Bullet(x + tank.getWidth(null) / 2, y, UP);
+                shoot.stop();
                 shoot.play();
             }
         }
     }
-    public boolean isShooting() {
+
+    public boolean isShooting() { // returns whether the tank is shooting or not
         return !(bullet == null);
     }
 
-    public boolean isHit(ArrayList<Bullet> bullets) {
+    public boolean isHit(ArrayList<Bullet> bullets) { // returns whether the tank is hit by a bullet or not
         for (int i = 0; i < bullets.size(); i ++) {
             if (hitbox.intersects(bullets.get(i).getHitbox())) {
                 return true;
@@ -71,12 +83,12 @@ public class Tank {
         }
         return false;
     }
+    
+    // Getters and Setters
+    
     public Rectangle getHitbox() {
         return hitbox;
     }
-
-    // Getters and Setters
-
     public int getX() {
         return x;
     }
@@ -92,10 +104,16 @@ public class Tank {
     public int getLives() {
         return lives;
     }
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
     public Bullet getBullet() {
         return bullet;
     }
     public void setBullet(Bullet bullet) {
         this.bullet = bullet;
+    }
+    public SoundEffect getSound() {
+        return shoot;
     }
 }
