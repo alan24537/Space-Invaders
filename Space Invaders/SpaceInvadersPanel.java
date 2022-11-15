@@ -7,19 +7,24 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class SpaceInvadersPanel extends JPanel implements ActionListener {
+
+    final static int INTRO = 0, GAME = 1, END = 2; // Constants for the different states of the game
     private Timer timer; // Timer that updates the game (every 20 ms)
-    private final int INTRO = 0, GAME = 1, END = 2; // Constants for the different states of the game
     private int currentState; // Current state of the game
-    private IntroPanel intro = new IntroPanel(); 
-    private GamePanel game = new GamePanel();
-    private EndPanel end = new EndPanel();
+    private IntroPanel intro; 
+    private GamePanel game;
+    private EndPanel end;
 
     public SpaceInvadersPanel() {
-        setPreferredSize(new Dimension(1200, 900));
+        setPreferredSize(new Dimension(SpaceInvaders.WIDTH, SpaceInvaders.HEIGHT));
         setBackground(Color.BLACK);
 
         setFocusable(true);
 		requestFocus();
+
+        intro = new IntroPanel(); 
+        game = new GamePanel();
+        end = new EndPanel();
 
 
         // Adds the panels to this panel
@@ -34,7 +39,7 @@ public class SpaceInvadersPanel extends JPanel implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) { // updates the game (every 20 ms)
+    public void actionPerformed(ActionEvent e) { // updates the game every time the timer is triggered (every 20 ms)
         updateMenuState();
         repaint();
         
@@ -43,9 +48,11 @@ public class SpaceInvadersPanel extends JPanel implements ActionListener {
     public void paint(Graphics g) { // paints the current panel
         if (currentState == INTRO) {
             intro.paint(g);
-        } else if (currentState == GAME) {
+        } 
+        else if (currentState == GAME) {
             game.paint(g);
-        } else if (currentState == END) {
+        } 
+        else if (currentState == END) {
             end.paint(g);
         }
     }
@@ -57,6 +64,7 @@ public class SpaceInvadersPanel extends JPanel implements ActionListener {
                 intro.startIntroScreen();
             }
             else if (intro.getState() == false && currentState == INTRO) { // if the program thinks the intro panel is active but it is not, we stop the intro panel and start the game panel
+                intro.stopIntroScreen();
                 game.setState(true);
                 currentState = GAME;
                 game.startGame();
